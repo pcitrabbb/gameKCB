@@ -1,0 +1,425 @@
+/* ===== Warna aksen (diganti otomatis oleh script.js tiap level) ===== */
+:root {
+    --aksen: #ab6bde;
+    --aksen-hover: #c28af0;
+    --aksen-terang: #e6c2ff;
+    --latar: #0e1130;
+    --kaca: rgba(255, 255, 255, 0.06);
+    --garis-kaca: rgba(255, 255, 255, 0.12);
+}
+
+/* ===== Tampilan dasar ===== */
+body {
+    margin: 0;
+    padding: 16px;
+    min-height: 100vh;
+    background:
+        radial-gradient(ellipse at 50% 0%, #1d2058 0%, rgba(29, 32, 88, 0) 60%),
+        linear-gradient(180deg, #14173d 0%, var(--latar) 100%);
+    background-attachment: fixed;
+    color: #ffffff;
+    font-family: "Poppins", "Segoe UI", Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;   /* taruh semua elemen di tengah */
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.judul-game, #menu, #pilih-level, #area-game {
+    position: relative;
+    z-index: 1;
+}
+
+/* ===== Hiasan latar ===== */
+.deko {
+    position: fixed;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.deko-lingkaran-a {
+    top: -70px; left: -70px;
+    width: 190px; height: 190px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 60% 60%, #5a52d6, #3b3a99);
+    opacity: 0.85;
+}
+
+.deko-cincin-a {
+    top: -120px; left: -120px;
+    width: 330px; height: 330px;
+    border-radius: 50%;
+    border: 1px solid rgba(150, 130, 255, 0.55);
+}
+
+.deko-lingkaran-b {
+    bottom: -90px; right: -90px;
+    width: 210px; height: 210px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 40%, #5a52d6, #3b3a99);
+    opacity: 0.85;
+}
+
+.deko-cincin-b {
+    bottom: -150px; right: -150px;
+    width: 360px; height: 360px;
+    border-radius: 50%;
+    border: 1px solid rgba(150, 130, 255, 0.55);
+}
+
+.deko-titik {
+    width: 42px; height: 42px;
+    background-image: radial-gradient(circle, rgba(160, 150, 255, 0.7) 1.6px, transparent 2.2px);
+    background-size: 14px 14px;
+}
+.deko-titik-a { top: 28px; right: 28px; }
+.deko-titik-b { bottom: 28px; left: 28px; }
+
+/* ===== Judul ===== */
+.judul-game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 18px;
+}
+
+.hiasan-judul {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.hiasan-judul span {
+    width: 34px; height: 1px;
+    background: rgba(170, 160, 255, 0.5);
+}
+.hiasan-judul i {
+    width: 34px; height: 5px;
+    border-radius: 3px;
+    background: #9b7bff;
+}
+
+h1 {
+    margin: 10px 0 0;
+    font-size: 70px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    text-shadow: 0 4px 18px rgba(120, 100, 255, 0.45);
+}
+h1 em {
+    font-style: normal;
+    color: #b79cff;
+}
+
+h2 {
+    margin: 4px 0;
+    font-weight: normal;
+    color: #aab6c8;
+}
+
+.subjudul {
+    margin: 0 0 10px;
+    font-size: 14px;
+    color: #c7cdf0;
+    text-align: center;
+}
+
+#status {
+    margin: 4px 0 12px;
+    text-align: center;
+    min-height: 1.4em;
+    max-width: 420px;
+}
+
+/* ===== Halaman 1: menu pilih mode ===== */
+#menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    gap: 16px;
+    width: 100%;
+    max-width: 320px;
+    margin-top: 6px;
+}
+
+.kartu-mode {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 56px;
+    padding: 0 18px 0 10px;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 999px;
+    box-shadow:
+        0 8px 22px var(--glow),
+        inset 0 2px 0 rgba(255, 255, 255, 0.28),
+        inset 0 -4px 0 rgba(0, 0, 0, 0.14);
+    transition: transform 0.15s, filter 0.15s;
+}
+
+.kartu-mode:hover:not(:disabled) {
+    background: inherit;
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+}
+.kartu-mode:active { transform: translateY(1px); }
+
+.mode-easy   { --glow: rgba(46, 201, 154, 0.4);  background: linear-gradient(90deg, #22b98e, #3ed6a2); }
+.mode-medium { --glow: rgba(124, 82, 235, 0.45); background: linear-gradient(90deg, #6f46e0, #8b63f2); }
+.mode-hard   { --glow: rgba(255, 112, 70, 0.4);  background: linear-gradient(90deg, #f2653a, #ff8a55); }
+
+.ikon-mode {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.18);
+    flex-shrink: 0;
+}
+
+.label-mode {
+    flex: 1;
+    text-align: center;
+    padding-right: 20px;   /* menyeimbangkan lebar ikon di kiri */
+}
+
+.panah {
+    position: absolute;
+    right: 16px;
+}
+
+/* ===== Halaman 2: pilih level ===== */
+#pilih-level {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 8px;
+}
+
+#pilih-level h2 {
+    position: relative;
+    font-size: 24px;
+    font-weight: 700;
+    color: #dcd3ff;
+    margin: 8px 0 22px;
+    padding: 0 22px;
+}
+/* percikan kecil di kiri-kanan judul mode */
+#pilih-level h2::before,
+#pilih-level h2::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    width: 8px; height: 12px;
+    border: 2px solid #9b7bff;
+    border-top: none;
+}
+#pilih-level h2::before { left: 0;  border-right: none; border-radius: 0 0 0 8px; transform: rotate(-10deg); }
+#pilih-level h2::after  { right: 0; border-left: none;  border-radius: 0 0 8px 0; transform: rotate(10deg); }
+
+#grid-level {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    width: 100%;
+    max-width: 380px;
+}
+
+/* Warna dasar ubin level diisi script.js (inline), CSS menambah kilau + glow */
+.btn-level {
+    aspect-ratio: 1 / 1;
+    padding: 0;
+    font-size: 22px;
+    font-weight: 700;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow:
+        0 0 18px rgba(155, 123, 255, 0.45),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3);
+    transition: transform 0.15s, filter 0.15s;
+}
+
+.btn-level:not(:disabled) {
+    background-image: linear-gradient(160deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 60%) !important;
+}
+
+.btn-level:hover:not(:disabled) {
+    filter: brightness(1.12);
+    transform: translateY(-2px);
+}
+
+.btn-level:disabled {
+    background: var(--kaca) !important;   /* level terkunci: ubin kaca gelap */
+    border: 1px solid var(--garis-kaca);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    font-size: 20px;
+    cursor: not-allowed;
+}
+
+/* ===== Halaman 3: area permainan ===== */
+#area-game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+canvas {
+    background: rgba(8, 10, 36, 0.65);
+    border: 1px solid var(--garis-kaca);
+    border-radius: 14px;
+    touch-action: none;    /* supaya geser jari tidak men-scroll halaman */
+    max-width: 100%;
+}
+
+/* ===== Tombol ===== */
+.tombol {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+button {
+    padding: 10px 22px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 999px;
+    background: var(--aksen);
+    color: #ffffff;
+    cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+    background: var(--aksen-hover);
+}
+
+button:disabled {
+    background: #3a3f66;
+    color: #8c92b8;
+    cursor: not-allowed;
+}
+
+button.sekunder {
+    background: var(--kaca);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+button.sekunder:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+#btn-kembali {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 30px;
+    margin-top: 10px;
+    font-size: 15px;
+}
+
+button.besar {
+    padding: 14px 40px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* ===== Popup menang ===== */
+[hidden] {
+    display: none !important;   /* supaya atribut hidden selalu berfungsi */
+}
+
+#overlay {
+    position: fixed;
+    inset: 0;                    /* menutupi seluruh layar */
+    z-index: 10;
+    background: rgba(8, 10, 30, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+/* kanvas konfeti di belakang kotak, tidak menghalangi klik */
+#overlay #konfeti {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    pointer-events: none;
+}
+
+.kotak-akhir {
+    position: relative;
+    z-index: 1;
+    background: #171a45;
+    border: 3px solid var(--aksen);
+    border-radius: 24px;
+    padding: 24px 36px 28px;
+    max-width: 380px;
+    text-align: center;
+    box-shadow: 0 0 40px var(--aksen), 0 0 90px rgba(255, 255, 255, 0.08);
+    animation: muncul 0.55s cubic-bezier(0.2, 1.5, 0.4, 1);
+}
+
+.emoji-besar {
+    font-size: 60px;
+    line-height: 1;
+    animation: loncat 1s ease-in-out infinite;
+}
+
+.kotak-akhir h2 {
+    font-size: 36px;
+    font-weight: bold;
+    margin: 8px 0;
+    color: #ffffff;
+    background: linear-gradient(90deg, #ffffff, var(--aksen-terang), #ffffff);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: kilau 2s linear infinite;
+}
+
+.kotak-akhir p {
+    color: #c9d3e3;
+    line-height: 1.5;
+    margin: 0 0 8px;
+}
+
+.kotak-akhir .tombol {
+    justify-content: center;
+    margin-top: 16px;
+}
+
+@keyframes muncul {
+    from { transform: scale(0.3); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+}
+
+@keyframes loncat {
+    0%, 100% { transform: translateY(0) rotate(-6deg); }
+    50%      { transform: translateY(-14px) rotate(6deg); }
+}
+
+@keyframes kilau {
+    from { background-position: 0% center; }
+    to   { background-position: 200% center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .kotak-akhir, .emoji-besar, .kotak-akhir h2 { animation: none; }
+}
